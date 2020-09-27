@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+	<id>org.python.Python</id>
+	<name>Python</name>
+	<summary>A Flatpak with Python 3 and the Azure CLI and Azure DevOps in it.</summary>
+	<description>
+    <p>It's Python 3 withe azure-cli and azure-devops installed.</p>
+	</description>
+  <releases>
+    <release version="3.8.6" date="2020-09-24">
+      <description>See https://www.python.org/downloads/release/python-386/ for more details.</description>
+    </release>
+  </releases>
+	<categories>
+		<catagory>Development</catagory>
+	</categories>
+	<url type="homepage">https://python.org</url>
+	<metadata_license>CC0-1.0</metadata_license>
+  <content_rating type="oars-1.0" />
+</component>
