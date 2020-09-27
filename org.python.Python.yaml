@@ -3,20 +3,42 @@ app-id: org.python.Python
 runtime: org.freedesktop.Platform
 runtime-version: '20.08'
 sdk: org.freedesktop.Sdk
-command: start.sh
-module:
+command: python
+modules:
   - name: python
+    # So, it seems that Flapak was smart enough to know to download this tar.gz,
+    # unpack it, and then compile and run the basic steps to get it usable for
+    # other things.
     sources:
       - type: archive
         url: https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz
         sha256: 313562ee9986dc369cd678011bdfd9800ef62fbf7b1496228a18f86b36428c21
+  - name: pip-packages
+    buildsystem: simple
+    build-options:
+      # This share network is only available to our application while its being
+      # built in our sandbox. When it's ran, it's also in a sandbox. This is
+      # where the finish-args come into play.
+      build-args:
+        - '--share=network'
+    build-commands:
+      - pip3 install --upgrade pip
+      - pip3 install azure-cli
+      - az extension add --name azure-devops
   - name: runner
     sources:
       - type: script
-        dest-filename: start.sh
+        # This script is named python, but it's a shim script. It's similar to
+        # what an OS does by making an alias or symlink to that file.
+        # Doing this could allow us to make other shims for other applications
+        # that we install.
+        dest-filename: python
         commands:
-          - exec /app/bin/python $@
+          - exec /app/bin/python3 $@
     buildsystem: simple
     build-commands:
-      - pwd
+      - install -D -m 755 python /app/bin/python
+finish-args:
+  - '--share=network'
+  - '--filesystem=home:create'
 ...
