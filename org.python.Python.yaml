@@ -1,0 +1,22 @@
+---
+app-id: org.python.Python
+runtime: org.freedesktop.Platform
+runtime-version: '20.08'
+sdk: org.freedesktop.Sdk
+command: start.sh
+module:
+  - name: python
+    sources:
+      - type: archive
+        url: https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz
+        sha256: 313562ee9986dc369cd678011bdfd9800ef62fbf7b1496228a18f86b36428c21
+  - name: runner
+    sources:
+      - type: script
+        dest-filename: start.sh
+        commands:
+          - exec /app/bin/python $@
+    buildsystem: simple
+    build-commands:
+      - pwd
+...
